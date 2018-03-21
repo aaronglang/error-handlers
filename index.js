@@ -1,3 +1,57 @@
+const init = function(configs, functionNames) {
+    let defaults = {
+        ThrowErr : ThrowError,
+        Parse : ParseError,
+        ErrorRes : ErrorResponse,
+        SuccessRes : SuccessResponse,
+        Catcher : CatchError
+    };
+
+    if(configs.func_names !== undefined){
+        assign_to_global(defaults, functionNames);
+    }
+    else if(configs === undefined) {
+        let configs = {};
+        configs.global = true;
+        assign_to_global(defaults);
+    }
+    else if(configs.global === undefined) {
+        configs.global = true;
+        assign_to_global(defaults);
+    }
+
+    else if(configs.global !== true) {
+        console.log('!!! Global functions not allowed !!!');
+        return null;
+    }
+    else if(configs.global === true && functionNames === undefined) {
+        assign_to_global(defaults);
+    }
+
+    HandleUncaught(); // initializes function *** see below ***
+    return module.exports;
+};
+module.exports.init = init;
+
+const assign_to_global = function(functions, names){
+    if(names !== undefined) {
+        let keys = Object.keys(functions);
+        let vals = Object.values(names);
+        for (let i = 0; i < vals.length; i++) {
+            global[vals[i]] = functions[keys[i]];
+        }
+    }
+    if(names === undefined) {
+        console.log('not working 2');
+        TE = globals.ThrowErr;
+        pe = globals.Parse;
+        ReE = globals.ErrorRes;
+        ReS = globals.SuccessRes;
+        to = globals.Catcher;
+    }
+};
+module.exports.assign_to_global = assign_to_global;
+
 const ParseError = require('parse-error');//parses error so you can read error message and handle them accordingly
 module.exports.ParseError = ParseError;
 
@@ -6,7 +60,7 @@ const CatchError = function(promise) {//global function that will help use handl
         .then(data => {
         return [null, data];
 }).catch(err =>
-    [pe(err)]
+    [ParseError(err)]
 );
 };
 module.exports.CatchError = CatchError;
@@ -43,3 +97,11 @@ const SuccessResponse = function(res, data, code){ // Success Web Response
     return res.json(send_data)
 };
 module.exports.SuccessResponse = SuccessResponse;
+
+//This is here to handle all the uncaught promise rejections
+const HandleUncaught = function() {
+    process.on('unhandledRejection', error => {
+        console.error('Uncaught Error', pe(error));
+});
+};
+module.exports.HandleUncaught = HandleUncaught;
