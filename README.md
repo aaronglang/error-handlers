@@ -4,7 +4,7 @@ This is a simple error handling package who's functions can be used throughout a
 
 # Documentation
 First:
-<pre> npm i un-handle </pre>
+<code> npm i error-handlers </code>
 ## Error handlers:
 ### 1) ErrorResponse
 The ErrorResponse function takes three parameters, the response, error, and http status code.
