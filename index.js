@@ -7,7 +7,7 @@ const init = function(configs, functionNames) {
         Catcher : CatchError
     };
 
-    if(configs.func_names !== undefined){
+    if(functionNames !== undefined){
         assign_to_global(defaults, functionNames);
     }
     else if(configs === undefined) {
@@ -37,17 +37,18 @@ const assign_to_global = function(functions, names){
     if(names !== undefined) {
         let keys = Object.keys(functions);
         let vals = Object.values(names);
+        // Sets global function names
         for (let i = 0; i < vals.length; i++) {
             global[vals[i]] = functions[keys[i]];
         }
     }
     if(names === undefined) {
-        console.log('not working 2');
-        TE = globals.ThrowErr;
-        pe = globals.Parse;
-        ReE = globals.ErrorRes;
-        ReS = globals.SuccessRes;
-        to = globals.Catcher;
+        // Sets default global function names
+        TE = functions.ThrowErr;
+        pe = functions.Parse;
+        ReE = functions.ErrorRes;
+        ReS = functions.SuccessRes;
+        to = functions.Catcher;
     }
 };
 module.exports.assign_to_global = assign_to_global;
