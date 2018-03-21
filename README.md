@@ -25,7 +25,7 @@ This is from the npm package 'parse-error' you can read about it here: https://w
 To use these error handlers throughout your application:
 <code>const handler = require('error-handlers')</code>
 You can either require this module wherever necessary, or in the express app.js you can add something like this:
-<code>
+<strong><pre>
 const handle = require('error-handlers');
 // Global functions for handling errors
 global.pe = handler.ParseError;
@@ -33,20 +33,21 @@ global.to = handler.CatchError;
 global.TE = handler.ThrowError;
 global.ReE = handler.ErrorResponse;
 global.ReS = handler.SuccessResponse;
-</code>
+</pre></strong>
 You could also make a separate file containing all (if any) global functions and declare add the code there instead.
 Below is an example of these functions in use.
 In this example, the author is using the Sequelize ORM.
-<code>
+<strong><pre>
 const update = async function(req, res){
     let err, user, data, client, able;
     user = req.user;
     client = req.client;
     data = req.body;
     user.set(data);
+
     [err, user] = await to(user.save());
     if(err) return ReE(res, err, 422);
     return ReS(res, {message :'Updated User: '+ client.clientId});
 }
-</code>
+</pre></strong>
 
