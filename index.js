@@ -39,7 +39,7 @@ const assign_to_global = function(functions, names){
         let vals = Object.values(names);
         // Sets global function names
         for (let i = 0; i < vals.length; i++) {
-            const vals[i] = functions[keys[i]];
+            vals[i] = functions[keys[i]];
         }
     }
     if(names === undefined) {
