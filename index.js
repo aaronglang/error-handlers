@@ -39,16 +39,16 @@ const assign_to_global = function(functions, names){
         let vals = Object.values(names);
         // Sets global function names
         for (let i = 0; i < vals.length; i++) {
-            global[vals[i]] = functions[keys[i]];
+            const vals[i] = functions[keys[i]];
         }
     }
     if(names === undefined) {
         // Sets default global function names
-        TE = functions.ThrowErr;
-        pe = functions.Parse;
-        ReE = functions.ErrorRes;
-        ReS = functions.SuccessRes;
-        to = functions.Catcher;
+        const TE = functions.ThrowErr;
+        const pe = functions.Parse;
+        const ReE = functions.ErrorRes;
+        const ReS = functions.SuccessRes;
+        const to = functions.Catcher;
     }
 };
 module.exports.assign_to_global = assign_to_global;
