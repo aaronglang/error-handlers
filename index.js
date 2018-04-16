@@ -45,7 +45,7 @@ const assign_to_global = function(functions, names){
     if(names === undefined) {
         // Sets default global function names
         const TE = functions.ThrowErr;
-        const pe = functions.Parse;
+        const pe = functions.ParseError;
         const ReE = functions.ErrorRes;
         const ReS = functions.SuccessRes;
         const to = functions.Catcher;
@@ -66,9 +66,12 @@ const CatchError = function(promise) {//global function that will help use handl
 };
 module.exports.CatchError = CatchError;
 
-const ThrowError = function(err_message, log){ // TE stands for Throw Error
+const ThrowError = function(err_message, log, line){ // TE stands for Throw Error
     if(log === true){
         console.error(err_message);
+    }
+    if(line) {
+        err_message = err_message + ' at line ' + line;
     }
 
     throw new Error(err_message);
@@ -102,7 +105,7 @@ module.exports.SuccessResponse = SuccessResponse;
 //This is here to handle all the uncaught promise rejections
 const HandleUncaught = function() {
     process.on('unhandledRejection', error => {
-        console.error('Uncaught Error', pe(error));
+        console.error('Uncaught Error', ParseError(error));
 });
 };
 module.exports.HandleUncaught = HandleUncaught;
